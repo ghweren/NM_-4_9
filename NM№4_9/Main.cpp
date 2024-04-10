@@ -30,7 +30,7 @@ vector<double> create_x_temp(vector<double> x, vector<int> indexes, int k)
 	double prev = x[indexes[0]];
 	temp.push_back(prev);
 	for (int i = 1; i < k;i++)
-	if (x[indexes[i]] < prev)
+	if (x[indexes[i]] <= prev)
 	{
 		temp.push_front(x[indexes[i]]);
 		prev = x[indexes[i]];
@@ -120,6 +120,10 @@ int main()
 			throw invalid_argument("The value of the argument XX does not belong to the segment [X0,Xn]");
 		double Y_real = function(XX);
 		vector<int> indexes = search_nearest_points(x, XX);
+		cout << '\n';
+		for (int i = 0; i < N; i++)
+			cout << indexes[i] << ' ';
+		cout << '\n';
 
 		vector<double> temp_x=create_x_temp(x,indexes,2);
 
@@ -149,10 +153,10 @@ int main()
 			temp_x = create_x_temp(x, indexes, 4);
 			temp_y = create_y_temp(x, y, indexes, 4);
 			result = interpolationMethod->Calculation(temp_y, temp_x, XX);
+			cout << result;
 			double curr_eps = abs(prev_result - result);
-			
 			int i = 4;
-			while (i < N&&prev_eps != curr_eps&&curr_eps < eps)
+			while (i < N&&prev_eps != curr_eps&&curr_eps > eps)
 			{
 				cout<<1;
 				prev_result = result;
